@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .glass {
+        @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-sm dark:bg-dark-800/70 dark:border-white/10;
+    }
+    
+    .glass-panel {
+        @apply bg-white/80 backdrop-blur-lg border border-white/30 shadow-md rounded-2xl dark:bg-dark-900/80 dark:border-white/10;
+    }
+    
+    .glass-nav {
+        @apply bg-white/60 backdrop-blur-xl border-b border-gray-200/50 dark:bg-dark-900/60 dark:border-dark-700/50;
+    }
+}
+
+html {
+    @apply antialiased scroll-smooth;
+}
+
+body {
+    @apply bg-gray-50 text-gray-900 dark:bg-dark-900 dark:text-gray-100 transition-colors duration-200;
+}
