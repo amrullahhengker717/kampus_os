@@ -12,7 +12,7 @@
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">Booking Calendar</h3>
                     @can('create bookings')
-                    <x-primary-button>
+                    <x-primary-button x-data @click="$dispatch('openBookingModal', { start: new Date().toISOString(), end: new Date().toISOString() })">
                         {{ __('New Booking') }}
                     </x-primary-button>
                     @endcan
@@ -20,6 +20,8 @@
 
                 <div id="calendar" class="min-h-[600px] text-gray-800 dark:text-gray-200"></div>
             </div>
+            
+            <livewire:booking-modal />
 
         </div>
     </div>
@@ -40,21 +42,26 @@
                 editable: true,
                 selectable: true,
                 select: function(info) {
-                    alert('Selected ' + info.startStr + ' to ' + info.endStr + '\nYou can hook this up to open a booking modal!');
+                    Livewire.dispatch('openBookingModal', [info.startStr, info.endStr]);
                 },
                 events: [
                     @foreach($bookings as $booking)
                     {
                         title: '{{ $booking->room->name }} - {{ $booking->user->name }}',
-                        start: '{{ $booking->start_time }}',
-                        end: '{{ $booking->end_time }}',
-                        color: '{{ $booking->status === 'approved' ? '#10b981' : '#f59e0b' }}'
+                        start: '{{ \Carbon\Carbon::parse($booking->start_time)->format('Y-m-d\TH:i:s') }}',
+                        end: '{{ \Carbon\Carbon::parse($booking->end_time)->format('Y-m-d\TH:i:s') }}',
+                        color: '{{ $booking->status === 'approved' ? '#10b981' : ($booking->status === 'pending' ? '#f59e0b' : '#ef4444') }}'
                     },
                     @endforeach
                 ]
             });
             
             calendar.render();
+
+            // Refresh page when booking is created to re-render calendar events
+            window.addEventListener('bookingCreated', () => {
+                window.location.reload();
+            });
         });
     </script>
 </x-app-layout>
