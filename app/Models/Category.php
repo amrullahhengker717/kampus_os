@@ -6,5 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    //
+    protected $fillable = ['name', 'slug', 'description', 'color'];
+
+    public function threads()
+    {
+        return $this->hasMany(Thread::class);
+    }
 }

@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             UserSeeder::class,
             RoomSeeder::class,
-            // CategorySeeder::class, // We will enable this later for the Forum
+            CategorySeeder::class,
         ]);
     }
 }

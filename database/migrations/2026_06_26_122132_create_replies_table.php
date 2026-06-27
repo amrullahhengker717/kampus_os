@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('thread_id')->constrained()->cascadeOnDelete();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('replies')->cascadeOnDelete();
             $table->text('body');
+            $table->integer('likes_count')->default(0);
+            $table->boolean('is_best')->default(false);
             $table->timestamps();
         });
     }
