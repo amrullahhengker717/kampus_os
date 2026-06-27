@@ -12,35 +12,58 @@ class RoomSeeder extends Seeder
      */
     public function run(): void
     {
-        $buildingA = \App\Models\Building::create([
-            'name' => 'Gedung A',
-            'description' => 'Gedung Utama Fakultas'
+        $teknik = \App\Models\Building::create([
+            'name' => 'Gedung Teknik',
+            'description' => 'Fakultas Teknik'
         ]);
 
-        $buildingB = \App\Models\Building::create([
-            'name' => 'Gedung B',
-            'description' => 'Gedung Laboratorium'
+        $feb = \App\Models\Building::create([
+            'name' => 'Gedung FEB',
+            'description' => 'Fakultas Ekonomi dan Bisnis'
         ]);
 
-        \App\Models\Room::create([
-            'building_id' => $buildingA->id,
-            'name' => 'Ruang A101',
-            'capacity' => 40,
-            'type' => 'Classroom'
-        ]);
+        // Teknik Lantai 1
+        for ($i = 1; $i <= 4; $i++) {
+            \App\Models\Room::create([
+                'building_id' => $teknik->id,
+                'name' => 'T.10' . $i,
+                'floor' => 1,
+                'capacity' => 40,
+                'type' => 'Classroom'
+            ]);
+        }
 
-        \App\Models\Room::create([
-            'building_id' => $buildingA->id,
-            'name' => 'Aula Utama',
-            'capacity' => 150,
-            'type' => 'Auditorium'
-        ]);
+        // Teknik Lantai 2
+        for ($i = 1; $i <= 4; $i++) {
+            \App\Models\Room::create([
+                'building_id' => $teknik->id,
+                'name' => 'T.20' . $i,
+                'floor' => 2,
+                'capacity' => 40,
+                'type' => 'Classroom'
+            ]);
+        }
 
-        \App\Models\Room::create([
-            'building_id' => $buildingB->id,
-            'name' => 'Lab Komputer 1',
-            'capacity' => 30,
-            'type' => 'Lab'
-        ]);
+        // FEB Lantai 1
+        for ($i = 1; $i <= 4; $i++) {
+            \App\Models\Room::create([
+                'building_id' => $feb->id,
+                'name' => 'E.10' . $i,
+                'floor' => 1,
+                'capacity' => 50,
+                'type' => 'Classroom'
+            ]);
+        }
+        
+        // FEB Lantai 2
+        for ($i = 1; $i <= 2; $i++) {
+            \App\Models\Room::create([
+                'building_id' => $feb->id,
+                'name' => 'Lab FEB ' . $i,
+                'floor' => 2,
+                'capacity' => 30,
+                'type' => 'Lab'
+            ]);
+        }
     }
 }
