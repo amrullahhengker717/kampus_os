@@ -6,9 +6,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+Route::get('/dashboard', function () {
+    $user = \Illuminate\Support\Facades\Auth::user();
+    
+    // Stats
+    $totalBookings = $user->bookings()->count();
+    $totalThreads = $user->threads()->count();
+    $totalPosts = $user->posts()->count();
+
+    // Upcoming Bookings
+    $upcomingBookings = $user->bookings()
+        ->with('room.building')
+        ->whereDate('start_time', '>=', now())
+        ->orderBy('start_time')
+        ->take(3)
+        ->get();
+
+    // Recent Posts from feed
+    $recentPosts = \App\Models\Post::with('user', 'likes', 'comments')
+        ->latest()
+        ->take(3)
+        ->get();
+
+    return view('dashboard', compact('totalBookings', 'totalThreads', 'totalPosts', 'upcomingBookings', 'recentPosts'));
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
