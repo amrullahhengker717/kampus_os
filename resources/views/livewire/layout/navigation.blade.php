@@ -69,6 +69,12 @@ new class extends Component {
                     </x-slot>
 
                     <x-slot name="content">
+                        @if(auth()->user()->hasRole('Super Admin'))
+                            <x-dropdown-link :href="url('/admin')">
+                                {{ __('Admin Portal') }}
+                            </x-dropdown-link>
+                        @endif
+
                         <x-dropdown-link :href="route('profile')" wire:navigate>
                             {{ __('Profile') }}
                         </x-dropdown-link>
@@ -133,6 +139,12 @@ new class extends Component {
             </div>
 
             <div class="mt-3 space-y-1">
+                @if(auth()->user()->hasRole('Super Admin'))
+                    <x-responsive-nav-link :href="url('/admin')">
+                        {{ __('Admin Portal') }}
+                    </x-responsive-nav-link>
+                @endif
+
                 <x-responsive-nav-link :href="route('profile')" wire:navigate>
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
